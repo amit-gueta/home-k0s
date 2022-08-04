@@ -17,7 +17,7 @@ tasks:
   create-k0s-master-node:
     cmds:
       - echo "Creating master Node"
-      - multipass launch --cpus 1 --mem 1G --disk 10G --name master --cloud-init ./setup/k0s-infra/cloud-init.yaml
+      - multipass launch --cpus 1 --mem 4G --disk 20G --name master --cloud-init ./setup/k0s-infra/cloud-init.yaml
     status:
       - multipass ls | grep master1
 
@@ -25,7 +25,7 @@ tasks:
     cmds:
       - |
         for i in 1 2 3; do 
-          multipass launch -cpus 2 --mem 2G --disk 10G --name worker$i --cloud-init ./setup/k0s-infra/cloud-init.yaml
+          multipass launch --cpus 2 --mem 4G --disk 20G --name worker$i --cloud-init ./setup/k0s-infra/cloud-init.yaml
         done
     status:
       - multipass ls | grep worker1
@@ -48,3 +48,8 @@ tasks:
         sh: kubectl get nodes -o json | jq -r '.items[] | select ( .status.conditions[] | select( .type=="Ready" and .status=="False")) | .metadata.name'
     cmds:
       - echo {{if eq (trim .readyNodes) "3" }} k0s cluster is ready {{else}} NOT-READY {{end}}
+
+  clean-up:
+    cmds:
+      - multipass delete --purge --all
+      - rm -rf ~/.kube/k0s-config

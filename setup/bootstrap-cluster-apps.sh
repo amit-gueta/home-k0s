@@ -37,15 +37,11 @@ installArgoCd() {
 
   kubectl -n argocd create secret generic deployment-git-repo-credentials --from-literal=username=$GITHUB_USER --from-literal=password=$GITHUB_TOKEN
 
-  cd $REPO_ROOT/argocd-install || exit
+  cd $REPO_ROOT/argocd || exit
   helm repo add argo-cd https://argoproj.github.io/argo-helm
   helm dep update
 
-# helm install argocd ./argo-cd \
-#     --namespace=argocd \
-#     --create-namespace \
-#     -f values-override.yaml
-  helm upgrade --install -n argocd argocd ./argocd-install . -f values.yaml
+  helm upgrade --install -n argocd argocd . -f values.yaml
 
   checkDeployment argocd-application-controller argocd
   checkDeployment argocd-repo-server argocd
