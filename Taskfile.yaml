@@ -1,0 +1,50 @@
+version: '3'
+
+tasks:
+  hello:
+    cmds:
+      - echo 'Hello World from Task!'
+    silent: true
+
+  create-k0s:
+    cmds:
+      - task: create-k0s-master-node
+      - task: create-k0s-workers
+      - task: install-k0s
+      - task: fetch-kubeconfig
+      - task: verify-k0s-is-up-and-running
+
+  create-k0s-master-node:
+    cmds:
+      - echo "Creating master Node"
+      - multipass launch --cpus 1 --mem 1G --disk 10G --name master --cloud-init ./setup/k0s-infra/cloud-init.yaml
+    status:
+      - multipass ls | grep master1
+
+  create-k0s-workers:
+    cmds:
+      - |
+        for i in 1 2 3; do 
+          multipass launch -cpus 2 --mem 2G --disk 10G --name worker$i --cloud-init ./setup/k0s-infra/cloud-init.yaml
+        done
+    status:
+      - multipass ls | grep worker1
+      - multipass ls | grep worker2
+      - multipass ls | grep worker3
+
+  install-k0s:
+    cmds:
+      - k0sctl apply --config ./setup/k0s-infra/k0s.yaml
+  
+  fetch-kubeconfig:
+    cmds:
+      - k0sctl kubeconfig --config ./setup/k0s-infra/k0s.yaml > ~/.kube/k0s-config
+
+  verify-k0s-is-up-and-running:
+    vars:
+      readyNodes:
+        sh: kubectl get nodes -o json | jq -r '.items[] | select ( .status.conditions[] | select( .type=="Ready" and .status=="True")) | .metadata.name' | wc -l
+      notReadyNodes:
+        sh: kubectl get nodes -o json | jq -r '.items[] | select ( .status.conditions[] | select( .type=="Ready" and .status=="False")) | .metadata.name'
+    cmds:
+      - echo {{if eq (trim .readyNodes) "3" }} k0s cluster is ready {{else}} NOT-READY {{end}}

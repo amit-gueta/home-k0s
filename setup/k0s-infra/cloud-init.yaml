@@ -1,0 +1,6 @@
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQW7c7jS0XQLo/cU366+3OqWsfgUsZX4ybz6wg5gnDG gueta.amit@gmail.com
+
+packages:
+  - open-iscsi
+  - nfs-common
