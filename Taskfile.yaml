@@ -39,6 +39,7 @@ tasks:
   fetch-kubeconfig:
     cmds:
       - k0sctl kubeconfig --config ./setup/k0s-infra/k0s.yaml > ~/.kube/k0s-config
+      - chmod 400 ~/.kube/k0s-config
 
   verify-k0s-is-up-and-running:
     vars:

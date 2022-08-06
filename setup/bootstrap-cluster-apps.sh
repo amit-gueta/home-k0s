@@ -43,7 +43,6 @@ installArgoCd() {
 
   helm upgrade --install -n argocd argocd . -f values.yaml
 
-  checkDeployment argocd-application-controller argocd
   checkDeployment argocd-repo-server argocd
   checkDeployment argocd-server argocd
   checkDeployment argocd-redis argocd
@@ -58,6 +57,7 @@ checkDeployment() {
     echo "waiting for $1 to be fully ready..."
     kubectl -n $2 wait --for condition=Available deployment/$1 >/dev/null 2>&1
     READY=$?
+    echo $READY
     sleep 5
   done
 }
@@ -73,20 +73,8 @@ initArgo() {
 
 }
 
-kubeConfig() {
-  sudo cp /etc/rancher/k3s/k3s.yaml kubeconfig
-  sudo chown $(id -u):$(id -g) kubeconfig
-  sudo chmod go-r kubeconfig
-  sed -i -e 's/127.0.0.1/rancher.rsr.net/g' kubeconfig
-  export KUBECONFIG="$REPO_ROOT/setup/kubeconfig"
-}
-
-# kubeConfig
 installArgoCd
 initArgo
-
-#"$REPO_ROOT"/setup/bootstrap-objects.sh
-#"$REPO_ROOT"/setup/bootstrap-vault.sh
 
 message "all done!"
 kubectl get nodes -o=wide
