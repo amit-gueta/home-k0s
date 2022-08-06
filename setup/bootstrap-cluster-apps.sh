@@ -57,7 +57,7 @@ checkDeployment() {
   while [ $READY != 0 ]; do
     echo "waiting for $1 to be fully ready..."
     kubectl -n $2 wait --for condition=Available deployment/$1 >/dev/null 2>&1
-    READY="$?"
+    READY=$?
     sleep 5
   done
 }
@@ -83,7 +83,7 @@ kubeConfig() {
 
 # kubeConfig
 installArgoCd
-#initArgo
+initArgo
 
 #"$REPO_ROOT"/setup/bootstrap-objects.sh
 #"$REPO_ROOT"/setup/bootstrap-vault.sh

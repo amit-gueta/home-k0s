@@ -7,9 +7,9 @@ ingress-nginx:
       # global-auth-url: "http://oauth2-proxy.kube-system.svc.cluster.local/oauth2/auth"
       # global-auth-signin: "https://auth.$server_name/oauth2/start"
     use-forwarded-headers: "true"
-    service:
-      loadBalancerIP: 192.168.100.150
-      externalTrafficPolicy: Local
+    # service:
+    #   loadBalancerIP: 192.168.100.150
+    #   externalTrafficPolicy: Local
             
     resources:
       requests:
