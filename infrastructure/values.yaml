@@ -1,4 +1,4 @@
 
 repo:
-  url: https://github.com/rogerrum/k8s-gitops.git
+  url: https://github.com/amit-gueta/home-k0s.git
   revision: main
