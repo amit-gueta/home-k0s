@@ -52,34 +52,6 @@ argo-cd:
       limits:
         cpu: 2000m
         memory: 2048Mi
-#      limits:
-#        cpu: 5000m
-#        memory: 4744Mi
-
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: storage
-                  operator: DoesNotExist
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                    - argocd-repo-server
-                - key: app.kubernetes.io/instance
-                  operator: In
-                  values:
-                    - argocd
-                - key: app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - repo-server
-            topologyKey: "kubernetes.io/hostname"
 
 
   server:
@@ -133,24 +105,6 @@ argo-cd:
       requests:
         cpu: 100m
         memory: 105Mi
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                    - argocd-server
-                - key: app.kubernetes.io/instance
-                  operator: In
-                  values:
-                    - argocd
-                - key: app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - server
-            topologyKey: "kubernetes.io/hostname"
 
   controller:
     enableStatefulSet: true
@@ -162,30 +116,6 @@ argo-cd:
     args:
       repoServerTimeoutSeconds: 300
 
-#  redis:
-#    image:
-#      repository: redis
-#      tag: 6.2.6-alpine
 
-  redis-ha:
-    enabled: false
 
-    # Temp disable
-    exporter:
-      enabled: false
-#    image:
-#      repository: redis
-#      tag: 6.2.6-alpine
-
-    haproxy:
-      metrics:
-        enabled: false
-
-  notifications:
-    enabled: false
-
-    bots:
-      slack: 
-        serviceAccount:
-          create: false
 
