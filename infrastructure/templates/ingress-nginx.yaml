@@ -13,8 +13,8 @@ spec:
   project: default
   source:
     path: infrastructure/ingress-nginx
-    repoURL: { { .Values.repo.url } }
-    targetRevision: { { .Values.repo.revision } }
+    repoURL: {{ .Values.repo.url }}
+    targetRevision: {{ .Values.repo.revision }}
     helm:
       valueFiles:
         - values.yaml
