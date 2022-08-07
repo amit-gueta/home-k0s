@@ -13,15 +13,15 @@ spec:
   project: default
   source:
     path: infrastructure/ingress-nginx
-    repoURL: {{ .Values.repo.url }}
-    targetRevision: {{ .Values.repo.revision }}
+    repoURL: { { .Values.repo.url } }
+    targetRevision: { { .Values.repo.revision } }
     helm:
       valueFiles:
         - values.yaml
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     selfHeal: true
+  #   syncOptions:
+  #     - CreateNamespace=true
+  #     - ApplyOutOfSyncOnly=true

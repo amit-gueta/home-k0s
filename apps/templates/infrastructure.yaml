@@ -15,9 +15,9 @@ spec:
     path: infrastructure/
     repoURL: {{ .Values.repo.url }}
     targetRevision: {{ .Values.repo.revision }}
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - ApplyOutOfSyncOnly=true
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     selfHeal: true
+  #   syncOptions:
+  #     - ApplyOutOfSyncOnly=true

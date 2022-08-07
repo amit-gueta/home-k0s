@@ -8,20 +8,20 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: kube-system
+    namespace: metallb-system
     server: https://kubernetes.default.svc
   project: default
   source:
     path: infrastructure/metallb
-    repoURL: {{ .Values.repo.url }}
-    targetRevision: {{ .Values.repo.revision }}
+    repoURL: { { .Values.repo.url } }
+    targetRevision: { { .Values.repo.revision } }
     helm:
       valueFiles:
         - values.yaml
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     selfHeal: true
+  #   syncOptions:
+  #     - CreateNamespace=true
+  #     - ApplyOutOfSyncOnly=true
