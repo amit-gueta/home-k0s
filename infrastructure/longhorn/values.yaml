@@ -1,8 +1,20 @@
 # Default values for longhorn.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-service:
-  ui:
-    type: LoadBalancer
+
+ingress:
+  ## Set to true to enable ingress record generation
+  enabled: true
+
+  ## Add ingressClassName to the Ingress
+  ## Can replace the kubernetes.io/ingress.class annotation on v1.18+
+  ingressClassName: nginx
+
+  ## nginx path
+  host: 192.168.64.70.nip.io
+
+  ## If ingress is enabled you can set the default ingress path
+  ## then you can access the UI by using the following full path {{host}}+{{path}}
+  path: longhorn
 
 
