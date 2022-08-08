@@ -55,6 +55,10 @@ argo-cd:
 
 
   server:
+    ## Server service configuration
+    service:
+      # -- Server service type
+      type: LoadBalancer
     # ingress:
     #   enabled: true
     #   annotations:
