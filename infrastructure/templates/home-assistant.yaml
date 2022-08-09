@@ -16,15 +16,8 @@ spec:
     repoURL: {{ .Values.repo.url }}
     targetRevision: {{ .Values.repo.revision }}
     helm:
-      # valueFiles:
-      #   - values.yaml
-      values: |
-        service:
-          main:
-            type: LoadBalancer
-            ports:
-              http:
-                port: 8123
+      valueFiles:
+        - values.yaml
   syncPolicy: {}
 # automated:
 #   prune: true
