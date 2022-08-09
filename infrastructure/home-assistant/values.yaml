@@ -18,17 +18,16 @@ image:
 # @default -- See below
 env:
   # -- Set the container timezone
-  TZ: IL
+  TZ: UTC
 
 # -- Configures service settings for the chart. Normally this does not need to be modified.
 # @default -- See values.yaml
 service:
-  type: LoadBalancer
   main:
     type: LoadBalancer
     ports:
       http:
-        port: 8124
+        port: 8123
 
 ingress:
   main:
@@ -44,7 +43,7 @@ ingress:
 
     # -- Provide additional annotations which may be required.
     annotations:
-      kubernetes.io/ingress.class: nginx
+      # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
 
     # -- Provide additional labels which may be required.
@@ -64,11 +63,12 @@ ingress:
             path: /
             # -- Ignored if not kubeVersion >= 1.14-0
             pathType: Prefix
-            service:
-              # -- Overrides the service name reference for this path
-              name: home-assistant
-              # -- Overrides the service port reference for this path
-              port: 8124
+            backend:
+              service:
+                # -- Overrides the service name reference for this path
+                name: home-assistant
+                # -- Overrides the service port reference for this path
+                port: 8123
 
 # -- Enable devices to be discoverable
 # hostNetwork: true
@@ -184,4 +184,12 @@ addons:
     volumeMounts:
     - name: config
       mountPath: /data/config
+
+  http:
+    use_x_forwarded_for: true
+    trusted_proxies:
+      # Pod CIDR
+      - 10.96.0.0/16
+      # Node CIDR
+      - 192.168.64.0/24
 

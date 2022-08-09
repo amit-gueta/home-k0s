@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: longhorn
+  name: home-assistant
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: longhorn-system
+    namespace: home-assistant
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: infrastructure/longhorn
+    path: infrastructure/home-assistant
     repoURL: {{ .Values.repo.url }}
     targetRevision: {{ .Values.repo.revision }}
     helm:
