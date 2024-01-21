@@ -58,7 +58,7 @@ argo-cd:
     ## Server service configuration
     service:
       # -- Server service type
-      type: NodePort
+      type: LoadBalancer
     # ingress:
     #   enabled: true
     #   annotations:
